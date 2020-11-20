@@ -1,24 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace planHeist
 {
   class Program
   {
 
-    static public TeamMember userCreateTM()
+
+    static public List<TeamMember> userCreateTeamMembers()
     {
+      List<TeamMember> team = new List<TeamMember>();
       string name = "";
       int skillLvl = 0;
       double courage = 0;
+      bool blank = false;
+
       Console.WriteLine("You're creating your Team mate!");
       Console.WriteLine("-------------------------------");
-      Console.WriteLine("Enter the Name of your Team Mate!");
-      while (true)
+      Console.WriteLine("Enter the Name of your Team Mate! OR Enter a blank name to exit!");
+
+      while (blank == false)
       {
         string rawUserName = Console.ReadLine();
-        name = rawUserName;
-        Console.WriteLine($"You chose the Name: {name}.");
-        Console.WriteLine("---------------------------");
+
+        if (rawUserName.Equals("") == true)
+        {
+          return team;
+        }
+        else
+        {
+          name = rawUserName;
+          Console.WriteLine($"You chose the Name: {name}.");
+          Console.WriteLine("---------------------------");
+        }
+
 
         while (true)
         {
@@ -56,15 +71,31 @@ namespace planHeist
 
         }
         TeamMember newTM = new TeamMember(name, skillLvl, courage);
+        team.Add(newTM);
         newTM.printTeamMember();
-        return newTM;
-
+        Console.WriteLine("---TEAM_MEMBER_ADDED---");
+        Console.WriteLine("");
+        Console.WriteLine("Enter the Name of your Team Mate! OR Enter a blank name to exit!");
+        Console.WriteLine("-----------------------");
       }
+      return team;
+    }
+    static void PrintTeam(List<TeamMember> Team)
+    {
+
     }
     static void Main(string[] args)
     {
-      Console.WriteLine("Plan Your Heist!");
-      TeamMember TM = userCreateTM();
+      List<TeamMember> Team = new List<TeamMember>();
+      Console.WriteLine("Plan Your Heist! --- Enter a blank answer to exit");
+
+      Team = userCreateTeamMembers();
+
+      foreach (TeamMember tm in Team)
+      {
+        tm.printTeamMember();
+        Console.WriteLine("-----------------------");
+      }
 
     }
   }
