@@ -73,7 +73,16 @@ namespace planHeist
         TeamMember newTM = new TeamMember(name, skillLvl, courage);
         team.Add(newTM);
         newTM.printTeamMember();
+        Console.WriteLine("");
         Console.WriteLine("---TEAM_MEMBER_ADDED---");
+        Console.WriteLine("");
+        Console.WriteLine("Here's your team so far!");
+        foreach (TeamMember tm in team)
+        {
+          tm.printTeamMember();
+          Console.WriteLine("");
+        }
+        Console.WriteLine("");
         Console.WriteLine("");
         Console.WriteLine("Enter the Name of your Team Mate! OR Enter a blank name to exit!");
         Console.WriteLine("-----------------------");
@@ -84,17 +93,35 @@ namespace planHeist
     {
 
     }
+
+    static int TeamStrength(List<TeamMember> team)
+    {
+      int teamStr = 0;
+      foreach (TeamMember teamMate in team)
+      {
+        teamStr += teamMate.skillLvl;
+      }
+      return teamStr;
+    }
+
     static void Main(string[] args)
     {
+      // Needed varables in this block
       List<TeamMember> Team = new List<TeamMember>();
+
       Console.WriteLine("Plan Your Heist! --- Enter a blank answer to exit");
 
       Team = userCreateTeamMembers();
 
-      foreach (TeamMember tm in Team)
+      Bank bank = new Bank(100, 100);
+
+      if (TeamStrength(Team) > bank.difficulty)
       {
-        tm.printTeamMember();
-        Console.WriteLine("-----------------------");
+        Console.WriteLine("WE'RE FUCKING RICH!");
+      }
+      else
+      {
+        Console.WriteLine("STOP! YOU'VE VIOLATED THE LAW!");
       }
 
     }
