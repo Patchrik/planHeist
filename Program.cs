@@ -7,6 +7,12 @@ namespace planHeist
   {
 
 
+    static public int getLuck()
+    {
+      int luck = new Random().Next(-10, 11);
+      return luck;
+    }
+
     static public List<TeamMember> userCreateTeamMembers()
     {
       List<TeamMember> team = new List<TeamMember>();
@@ -115,8 +121,13 @@ namespace planHeist
 
       Bank bank = new Bank(100, 100);
 
-      if (TeamStrength(Team) > bank.difficulty)
+      int bankLuckRoll = bank.difficulty + getLuck();
+
+      if (TeamStrength(Team) > bankLuckRoll)
       {
+        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
+        Console.WriteLine("");
+        Console.WriteLine("");
         Console.WriteLine(@"
 
  __       __           __                         _______   __            __              __    __                                             
@@ -136,6 +147,9 @@ $$/      $$/  $$$$$$$/  $$$$$$$/ $$/             $$/   $$/ $$/  $$$$$$$/ $$/   $
       }
       else
       {
+        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
+        Console.WriteLine("");
+        Console.WriteLine("");
         Console.WriteLine(@"
 
    ____     __   ,-----.      ___    _          ______         .-''-.     ____     ______             ,---.    ,---.   .-''''-.    
