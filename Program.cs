@@ -13,6 +13,55 @@ namespace planHeist
       return luck;
     }
 
+    static public void playGame(List<TeamMember> Team, Bank bank)
+    {
+      int bankLuckRoll = bank.difficulty + getLuck();
+
+      if (TeamStrength(Team) > bankLuckRoll)
+      {
+        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
+        Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine(@"
+
+ __       __           __                         _______   __            __              __    __                                             
+/  |  _  /  |         /  |                       /       \ /  |          /  |            /  |  /  |                                            
+$$ | / \ $$ |  ______ $$/______    ______        $$$$$$$  |$$/   _______ $$ |____        $$ |  $$ |  ______   _____  ____    ______    _______ 
+$$ |/$  \$$ | /      \$//      \  /      \       $$ |__$$ |/  | /       |$$      \       $$ |__$$ | /      \ /     \/    \  /      \  /       |
+$$ /$$$  $$ |/$$$$$$  |/$$$$$$  |/$$$$$$  |      $$    $$< $$ |/$$$$$$$/ $$$$$$$  |      $$    $$ |/$$$$$$  |$$$$$$ $$$$  |/$$$$$$  |/$$$$$$$/ 
+$$ $$/$$ $$ |$$    $$ |$$    $$ |$$ |  $$/       $$$$$$$  |$$ |$$ |      $$ |  $$ |      $$$$$$$$ |$$ |  $$ |$$ | $$ | $$ |$$    $$ |$$      \ 
+$$$$/  $$$$ |$$$$$$$$/ $$$$$$$$/ $$ |            $$ |  $$ |$$ |$$ \_____ $$ |  $$ |      $$ |  $$ |$$ \__$$ |$$ | $$ | $$ |$$$$$$$$/  $$$$$$  |
+$$$/    $$$ |$$       |$$       |$$ |            $$ |  $$ |$$ |$$       |$$ |  $$ |      $$ |  $$ |$$    $$/ $$ | $$ | $$ |$$       |/     $$/ 
+$$/      $$/  $$$$$$$/  $$$$$$$/ $$/             $$/   $$/ $$/  $$$$$$$/ $$/   $$/       $$/   $$/  $$$$$$/  $$/  $$/  $$/  $$$$$$$/ $$$$$$$/  
+                                                                                                                                               
+                                                                                                                                               
+                                                                                                                                               
+
+");
+      }
+      else
+      {
+        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
+        Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine(@"
+
+   ____     __   ,-----.      ___    _          ______         .-''-.     ____     ______             ,---.    ,---.   .-''''-.    
+   \   \   /  /.'  .-,  '.  .'   |  | |        |    _ `''.   .'_ _   \  .'  __ `. |    _ `''.         |    \  /    |  /  _--.  \   
+    \  _. /  '/ ,-.|  \ _ \ |   .'  | |        | _ | ) _  \ / ( ` )   '/   '  \  \| _ | ) _  \        |  ,  \/  ,  |  |_( )_ ' |   
+     _( )_ .';  \  '_ /  | :.'  '_  | |        |( ''_'  ) |. (_ o _)  ||___|  /  ||( ''_'  ) |        |  |\_   /|  |  (_ o _). /   
+ ___(_ o _)' |  _`,/ \ _/  |'   ( \.-.|        | . (_) `. ||  (_,_)___|   _.-`   || . (_) `. |        |  _( )_/ |  | .'(_,_).  `.  
+|   |(_,_)'  : (  '\_/ \   ;' (`. _` /|        |(_    ._) ''  \   .---..'   _    ||(_    ._) '        | (_ o _) |  ||_( )_    \  | 
+|   `-'  /    \ `""/ \  ) / | (_ (_) _)         | (_.\.'  /  \  `-'    /|  _( )_  || (_.\.'  /         |  (_,_)  |  |(_ o _)   /  | 
+ \      /      '. \_/``"".'   \ /  . \/         |       .'    \       / \ (_ o _) /|       .'          |  |      |  | (_,_)..-' .'
+  `-..-'         '---- - '     ``-'`-''         '-----'`       `'-..-'  '.(_,_).' '-----'`            '--'      '--'   `-....-'    
+
+
+
+");
+      }
+    }
+
     static public List<TeamMember> userCreateTeamMembers()
     {
       List<TeamMember> team = new List<TeamMember>();
@@ -95,10 +144,6 @@ namespace planHeist
       }
       return team;
     }
-    static void PrintTeam(List<TeamMember> Team)
-    {
-
-    }
 
     static int TeamStrength(List<TeamMember> team)
     {
@@ -110,62 +155,56 @@ namespace planHeist
       return teamStr;
     }
 
+    static void playGames(List<TeamMember> Team, Bank bank)
+    {
+      Console.WriteLine("");
+      Console.WriteLine("How many times would you like to play?");
+      while (true)
+      {
+        try
+        {
+          int times = Int32.Parse(Console.ReadLine());
+          for (int i = 0; i < times; i++)
+          {
+            playGame(Team, bank);
+          }
+          break;
+        }
+        catch
+        {
+          Console.WriteLine("Looks like you didn't enter a number?");
+        }
+      }
+
+    }
+
     static void Main(string[] args)
     {
       // Needed varables in this block
       List<TeamMember> Team = new List<TeamMember>();
+      Bank bank = new Bank(100, 100);
 
       Console.WriteLine("Plan Your Heist! --- Enter a blank answer to exit");
+      Console.WriteLine("");
+      Console.WriteLine("How difficult is this Bank?");
+
+      while (true)
+      {
+        try
+        {
+          int chosenDiff = Int32.Parse(Console.ReadLine());
+          bank.difficulty = chosenDiff;
+          break;
+        }
+        catch
+        {
+          Console.WriteLine("That's not a real number. Try a WHOLE number again!");
+        }
+      }
 
       Team = userCreateTeamMembers();
 
-      Bank bank = new Bank(100, 100);
-
-      int bankLuckRoll = bank.difficulty + getLuck();
-
-      if (TeamStrength(Team) > bankLuckRoll)
-      {
-        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
-        Console.WriteLine("");
-        Console.WriteLine("");
-        Console.WriteLine(@"
-
- __       __           __                         _______   __            __              __    __                                             
-/  |  _  /  |         /  |                       /       \ /  |          /  |            /  |  /  |                                            
-$$ | / \ $$ |  ______ $$/______    ______        $$$$$$$  |$$/   _______ $$ |____        $$ |  $$ |  ______   _____  ____    ______    _______ 
-$$ |/$  \$$ | /      \$//      \  /      \       $$ |__$$ |/  | /       |$$      \       $$ |__$$ | /      \ /     \/    \  /      \  /       |
-$$ /$$$  $$ |/$$$$$$  |/$$$$$$  |/$$$$$$  |      $$    $$< $$ |/$$$$$$$/ $$$$$$$  |      $$    $$ |/$$$$$$  |$$$$$$ $$$$  |/$$$$$$  |/$$$$$$$/ 
-$$ $$/$$ $$ |$$    $$ |$$    $$ |$$ |  $$/       $$$$$$$  |$$ |$$ |      $$ |  $$ |      $$$$$$$$ |$$ |  $$ |$$ | $$ | $$ |$$    $$ |$$      \ 
-$$$$/  $$$$ |$$$$$$$$/ $$$$$$$$/ $$ |            $$ |  $$ |$$ |$$ \_____ $$ |  $$ |      $$ |  $$ |$$ \__$$ |$$ | $$ | $$ |$$$$$$$$/  $$$$$$  |
-$$$/    $$$ |$$       |$$       |$$ |            $$ |  $$ |$$ |$$       |$$ |  $$ |      $$ |  $$ |$$    $$/ $$ | $$ | $$ |$$       |/     $$/ 
-$$/      $$/  $$$$$$$/  $$$$$$$/ $$/             $$/   $$/ $$/  $$$$$$$/ $$/   $$/       $$/   $$/  $$$$$$/  $$/  $$/  $$/  $$$$$$$/ $$$$$$$/  
-                                                                                                                                               
-                                                                                                                                               
-                                                                                                                                               
-
-");
-      }
-      else
-      {
-        Console.WriteLine($"Your Team's Skill is {TeamStrength(Team)} VS The Bank's level of {bankLuckRoll}");
-        Console.WriteLine("");
-        Console.WriteLine("");
-        Console.WriteLine(@"
-
-   ____     __   ,-----.      ___    _          ______         .-''-.     ____     ______             ,---.    ,---.   .-''''-.    
-   \   \   /  /.'  .-,  '.  .'   |  | |        |    _ `''.   .'_ _   \  .'  __ `. |    _ `''.         |    \  /    |  /  _--.  \   
-    \  _. /  '/ ,-.|  \ _ \ |   .'  | |        | _ | ) _  \ / ( ` )   '/   '  \  \| _ | ) _  \        |  ,  \/  ,  |  |_( )_ ' |   
-     _( )_ .';  \  '_ /  | :.'  '_  | |        |( ''_'  ) |. (_ o _)  ||___|  /  ||( ''_'  ) |        |  |\_   /|  |  (_ o _). /   
- ___(_ o _)' |  _`,/ \ _/  |'   ( \.-.|        | . (_) `. ||  (_,_)___|   _.-`   || . (_) `. |        |  _( )_/ |  | .'(_,_).  `.  
-|   |(_,_)'  : (  '\_/ \   ;' (`. _` /|        |(_    ._) ''  \   .---..'   _    ||(_    ._) '        | (_ o _) |  ||_( )_    \  | 
-|   `-'  /    \ `""/ \  ) / | (_ (_) _)         | (_.\.'  /  \  `-'    /|  _( )_  || (_.\.'  /         |  (_,_)  |  |(_ o _)   /  | 
- \      /      '. \_/``"".'   \ /  . \/         |       .'    \       / \ (_ o _) /|       .'          |  |      |  | (_,_)..-' .'
-  `-..-'         '---- - '     ``-'`-''         '-----'`       `'-..-'  '.(_,_).' '-----'`            '--'      '--'   `-....-'    
-
-
-
-");
-      }
+      playGames(Team, bank);
 
     }
   }
